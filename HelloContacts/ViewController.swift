@@ -53,8 +53,16 @@ class ViewController: UIViewController {
             self?.tableView.reloadData()
         }
         
+        navigationItem.rightBarButtonItem = editButtonItem
+        
         print(contacts)
         
+    }
+    
+    override func setEditing(_ editing: Bool, animated: Bool) {
+        super.setEditing(editing, animated: animated)
+        
+        tableView.setEditing(editing, animated: animated)
     }
 }
 
@@ -103,6 +111,11 @@ extension ViewController: UITableViewDelegate {
         let actions = [deleteAction]
         let config = UISwipeActionsConfiguration(actions: actions)
         return config
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let contact = contacts.remove(at: sourceIndexPath.row)
+        contacts.insert(contact, at: destinationIndexPath.row)
     }
 }
 
