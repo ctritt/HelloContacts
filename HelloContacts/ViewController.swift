@@ -89,6 +89,21 @@ extension ViewController: UITableViewDelegate {
         alertController.addAction(dismissAction)
         present(alertController, animated: true, completion: nil)
     }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let deleteHandler: UIContextualActionHandler = { [weak self] action, view, callback in
+            self?.contacts.remove(at: indexPath.row)
+            self?.tableView.beginUpdates()
+            self?.tableView.deleteRows(at: [indexPath], with: .fade)
+            self?.tableView.endUpdates()
+            callback(true)
+        }
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete", handler: deleteHandler)
+        let actions = [deleteAction]
+        let config = UISwipeActionsConfiguration(actions: actions)
+        return config
+    }
 }
 
 extension ViewController: UITableViewDataSourcePrefetching {
