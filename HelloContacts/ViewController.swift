@@ -18,8 +18,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView.dataSource = self
-        collectionView.delegate = self
+        navigationItem.rightBarButtonItem = editButtonItem
         
         let store = CNContactStore()
         let authorizationStatus = CNContactStore.authorizationStatus(for: .contacts)
@@ -45,14 +44,13 @@ class ViewController: UIViewController {
                            CNContactImageDataAvailableKey as CNKeyDescriptor]
         
         //let contacts = try! store.unifiedContacts(matching: predicate, keysToFetch: keysToFetch)
-        contacts = try! store.unifiedContacts(matching: predicate, keysToFetch: keysToFetch).map{ contact in return HCContact(contact: contact) }
+        contacts = try! store.unifiedContacts(matching: predicate, keysToFetch: keysToFetch).map{ contact in
+            return HCContact(contact: contact)
+        }
         
-        self.collectionView.reloadData()
-        
-        navigationItem.rightBarButtonItem = editButtonItem
-        
-        //print(contacts)
-        
+        DispatchQueue.main.async { [weak self] in
+            self?.collectionView.reloadData()
+        }
     }
     
     override func setEditing(_ editing: Bool, animated: Bool) {
@@ -80,7 +78,26 @@ extension ViewController : UICollectionViewDataSource {
     }
 }
 
-extension ViewController : UICollectionViewDelegate {
+extension ViewController : UICollectionViewDelegateFlowLayout {
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: floor((collectionView.bounds.width - 2) / 3), height: 90)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        let cellsPerRow: CGFloat = 3
+        let widthRemainder = (collectionView.bounds.width - (cellsPerRow-1)).truncatingRemainder(dividingBy: cellsPerRow) / (cellsPerRow-1)
+        return 1 + widthRemainder
+    }
+}
+
+extension ViewController : UICollectionViewDataSourcePrefetching {
+    
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+            let contact = contacts[indexPath.row]
+            contact.fetchImageIfNeeded()
+        }
+    }
 }
 
