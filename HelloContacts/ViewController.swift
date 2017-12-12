@@ -18,6 +18,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        collectionView.dataSource = self
+        collectionView.delegate = self
         
         let store = CNContactStore()
         let authorizationStatus = CNContactStore.authorizationStatus(for: .contacts)
@@ -45,9 +47,11 @@ class ViewController: UIViewController {
         //let contacts = try! store.unifiedContacts(matching: predicate, keysToFetch: keysToFetch)
         contacts = try! store.unifiedContacts(matching: predicate, keysToFetch: keysToFetch).map{ contact in return HCContact(contact: contact) }
         
+        self.collectionView.reloadData()
+        
         navigationItem.rightBarButtonItem = editButtonItem
         
-        print(contacts)
+        //print(contacts)
         
     }
     
@@ -57,5 +61,26 @@ class ViewController: UIViewController {
     }
 }
 
+extension ViewController : UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return contacts.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "contactCell", for: indexPath) as! ContactCollectionViewCell
+        
+        let contact = contacts[indexPath.row]
+        cell.nameLabel.text = "\(contact.givenName) \(contact.familyName)"
+        contact.fetchImageIfNeeded()
+        if let image = contact.contactImage {
+            cell.contactImage.image = image
+        }
+        return cell
+    }
+}
 
+extension ViewController : UICollectionViewDelegate {
+    
+}
 
