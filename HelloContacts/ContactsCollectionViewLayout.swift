@@ -57,7 +57,12 @@ class ContactsCollectionViewLayout: UICollectionViewLayout {
     }
     
     override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
-        return false
+        guard let collectionView = collectionView else { return true}
+        
+        let availableHeight = newBounds.height - collectionView.contentInset.top - collectionView.contentInset.bottom
+        let possibleRows = Int(availableHeight + itemSpacing) / Int(itemSize.height + itemSpacing)
+        
+        return possibleRows != numRows
     }
     
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
