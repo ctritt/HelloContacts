@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8769EDB71FFBA245002F7476 /* ContactsCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8769EDB61FFBA245002F7476 /* ContactsCollectionViewLayout.swift */; };
 		87CD25141FD6C86D0078EB7F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CD25131FD6C86D0078EB7F /* AppDelegate.swift */; };
 		87CD25161FD6C86D0078EB7F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CD25151FD6C86D0078EB7F /* ViewController.swift */; };
 		87CD25191FD6C86D0078EB7F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 87CD25171FD6C86D0078EB7F /* Main.storyboard */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8769EDB61FFBA245002F7476 /* ContactsCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsCollectionViewLayout.swift; sourceTree = "<group>"; };
 		87CD25101FD6C86D0078EB7F /* HelloContacts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HelloContacts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87CD25131FD6C86D0078EB7F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		87CD25151FD6C86D0078EB7F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 				87CD251A1FD6C86D0078EB7F /* Assets.xcassets */,
 				87CD251C1FD6C86D0078EB7F /* LaunchScreen.storyboard */,
 				87CD251F1FD6C86D0078EB7F /* Info.plist */,
+				8769EDB61FFBA245002F7476 /* ContactsCollectionViewLayout.swift */,
 			);
 			path = HelloContacts;
 			sourceTree = "<group>";
@@ -143,6 +146,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				87CD25261FDAA6B50078EB7F /* ContactCollectionViewCell.swift in Sources */,
+				8769EDB71FFBA245002F7476 /* ContactsCollectionViewLayout.swift in Sources */,
 				87CD25281FDAB77F0078EB7F /* HCContact.swift in Sources */,
 				87CD25161FD6C86D0078EB7F /* ViewController.swift in Sources */,
 				87CD25141FD6C86D0078EB7F /* AppDelegate.swift in Sources */,
