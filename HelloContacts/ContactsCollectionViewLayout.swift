@@ -52,7 +52,9 @@ class ContactsCollectionViewLayout: UICollectionViewLayout {
     }
     
     override var collectionViewContentSize: CGSize {
-        return CGSize.zero
+        let width = CGFloat(numColumns) * itemSize.width + CGFloat(numColumns - 1) * itemSpacing
+        let height = CGFloat(numRows) * itemSize.height + CGFloat(numRows - 1) * itemSpacing
+        return CGSize(width: width, height: height)
     }
     
     override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
