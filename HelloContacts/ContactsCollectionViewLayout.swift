@@ -48,7 +48,6 @@ class ContactsCollectionViewLayout: UICollectionViewLayout {
             
             layoutAttributes.append(attributes)
         }
-        
     }
     
     override var collectionViewContentSize: CGSize {
@@ -62,7 +61,9 @@ class ContactsCollectionViewLayout: UICollectionViewLayout {
     }
     
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        return nil
+        return layoutAttributes.filter { attributes in
+            attributes.frame.intersects(rect)
+        }
     }
     
     override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
