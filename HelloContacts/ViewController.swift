@@ -36,6 +36,29 @@ class ViewController: UIViewController {
         }else if authorizationStatus == .authorized {
             retrieveContacts(fromStore: store)
         }
+        
+        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.receivedLongPress(gestureRecognizer:)))
+        collectionView.addGestureRecognizer(longPressRecognizer)
+    }
+    
+    @objc func receivedLongPress(gestureRecognizer: UILongPressGestureRecognizer) {
+        let tappedPoint = gestureRecognizer.location(in: collectionView)
+        guard let tappedIndexPath = collectionView.indexPathForItem(at: tappedPoint),
+              let tappedCell = collectionView.cellForItem(at: tappedIndexPath) else { return }
+        
+        let confirmDialog = UIAlertController(title: "Delete this contact?", message: "Are you sure you want to delete this contact?", preferredStyle: .actionSheet)
+        let deleteAction = UIAlertAction(title: "Yes", style: .destructive, handler: { action in
+            self.contacts.remove(at: tappedIndexPath.row)
+            self.collectionView.deleteItems(at: [tappedIndexPath])
+        })
+        let cancelAction = UIAlertAction(title: "No", style: .cancel, handler: nil)
+        confirmDialog.addAction(deleteAction)
+        confirmDialog.addAction(cancelAction)
+        
+        if let popOver = confirmDialog.popoverPresentationController {
+            popOver.sourceView = tappedCell
+        }
+        present(confirmDialog, animated: true, completion: nil)
     }
 
     func retrieveContacts(fromStore store: CNContactStore) {
@@ -59,6 +82,8 @@ class ViewController: UIViewController {
     
     override func setEditing(_ editing: Bool, animated: Bool) {
         super.setEditing(editing, animated: animated)
+        
+        
         
     }
 }
@@ -92,6 +117,21 @@ extension ViewController : UICollectionViewDelegateFlowLayout {
         let cellsPerRow: CGFloat = 3
         let widthRemainder = (collectionView.bounds.width - (cellsPerRow-1)).truncatingRemainder(dividingBy: cellsPerRow) / (cellsPerRow-1)
         return 1 + widthRemainder
+    }
+}
+
+extension ViewController : UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? ContactCollectionViewCell else { return }
+        
+        UIView.animate(withDuration: 0.1, delay: 0, options: [.curveEaseOut], animations: {
+            cell.contactImage.transform = CGAffineTransform(scaleX: 0.9, y: 0.9)
+        }, completion: { finished in
+            UIView.animate(withDuration: 0.1, delay: 0, options: [.curveEaseIn], animations: {
+                cell.contactImage.transform = CGAffineTransform.identity
+            }, completion: nil)
+        })
     }
 }
 
