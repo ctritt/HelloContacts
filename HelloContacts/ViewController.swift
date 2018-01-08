@@ -20,6 +20,10 @@ class ViewController: UIViewController {
         
         navigationItem.rightBarButtonItem = editButtonItem
         
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.collectionViewLayout = ContactsCollectionViewLayout()
+        
         let store = CNContactStore()
         let authorizationStatus = CNContactStore.authorizationStatus(for: .contacts)
         

@@ -66,8 +66,6 @@
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
-                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="3Mu-zL-mL6"/>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="9KV-Vl-SWl"/>
                                     <outlet property="prefetchDataSource" destination="BYZ-38-t0r" id="6Lm-yd-iLt"/>
                                 </connections>
                             </collectionView>
